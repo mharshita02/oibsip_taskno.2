@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo-List</title>
+    <script src="https://kit.fontawesome.com/d12a6f83a8.js" crossorigin="anonymous"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            height: 100vh;
+            background: grey;
+            background: linear-gradient(139deg, grey 0%, white 100%);
+        }
+        .container{
+            position: relative;
+            max-width: 800px;
+            padding: 10px;
+            margin: 0 auto;
+        }
+        .addtask{
+            width: 100%;
+            display: flex;
+            padding: 10px 0;
+        }
+        .addtask > input[type="text"]{
+            width: 90%;
+            color: black;
+            border: none;
+            border-bottom: 2px solid black;
+            background: none;
+            padding: 10px;
+            font-size: 18px;
+            outline: none;
+        }
+        .addtask button{
+            margin: 0 8px;
+            background: black;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .notcompleted .Completed{
+            margin: 5px 0;
+            padding: 20px;
+        }
+        h3{
+            font-size: 22px;
+            text-transform: uppercase;
+            text-align: center;
+            color: rgb(3, 3, 3);
+        }
+        ol{
+            list-style: none;
+            counter-reset: my-counter;
+        }
+        ol li{
+            width: 100%;
+            padding: 18px;
+            margin: 5px 0;
+            background: rgb(183, 76, 76);
+            font-size: 18px;
+            counter-increment: my-counter;
+        }
+        ol.Completed li{
+            background: rgb(62, 122, 62);
+        }
+        ol li::before{
+            content: counter(my-counter);
+            background: black;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: inline-block;
+            line-height: 2rem;
+            text-align: center;
+            color: white;
+            margin-right: 0.5rem;
+        }
+        li button{
+            float: right;
+            padding: 5px;
+            font-size: 18px;
+            line-height: 18px;
+            margin-right: 14px;
+            background: none;
+            outline: none;
+            border: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="addtask">
+            <input type="text" placeholder="Add Task">
+            <button>ADD</button>
+        </div>
+        <ol class="notcompleted">
+            <h3>Not Completed<br><br></h3>
+        </ol>
+        <ol class="Completed">
+            <h3>Completed<br><br></h3>
+        </ol>
+    </div>
+
+    <script>
+        const input = document.querySelector('input');
+        const btn = document.querySelector('.addtask > button');
+
+        btn.addEventListener('click', addList);
+        input.addEventListener('keyup', (e) => {
+            (e.keyCode === 13 ? addList(e) : null);
+        })
+
+        function addList(e){
+            const notcompleted = document.querySelector('.notcompleted');
+            const Completed = document.querySelector('.Completed');
+
+            const newLi = document.createElement('li');
+            const checkbtn = document.createElement('button');
+            const delbtn = document.createElement('button');
+
+            checkbtn.innerHTML = '<i class="fa fa-check"></i>';
+            delbtn.innerHTML = '<i class="fa fa-trash"></i>';
+
+            if(input.value !== ''){
+                newLi.textContent = input.value;
+                input.value = '';
+                notcompleted.appendChild(newLi);
+                newLi.appendChild(checkbtn);
+                newLi.appendChild(delbtn);
+            }
+
+            checkbtn.addEventListener('click', function(){
+                const parent = this.parentNode;
+                parent.remove();
+                Completed.appendChild(parent);
+                checkbtn.style.display = 'none';
+            });
+            delbtn.addEventListener('click', function(){
+                const parent = this.parentNode;
+                parent.remove();
+            });
+        }
+    </script>
+</body>
+
+</html>
